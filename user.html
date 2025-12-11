@@ -1,0 +1,165 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>User Panel | Warnet DIZ</title>
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<link rel="stylesheet" href="assets/css/style.css">
+<script src="https://cdn.tailwindcss.com"></script>
+</head>
+
+<!--
+  User Panel - Warnet DIZ
+  Halaman user hanya menampilkan info sesi (PC, durasi, biaya)
+  Tidak ada action - semua dikelola oleh admin
+-->
+<body class="min-h-screen p-4 bg-gradient-to-br from-indigo-900 via-sky-900 to-indigo-950">
+  <!-- Navbar -->
+  <nav class="glass-card p-4 flex flex-col md:flex-row justify-between items-center gap-2 md:gap-3 mb-4">
+    <h2 class="text-xl font-bold">⚡ WARNET DIZ</h2>
+    <div class="flex flex-col md:flex-row items-center gap-2">
+      <span id="navUser" class="font-semibold"></span>
+    </div>
+    <div class="flex gap-2 md:gap-3 items-center">
+      <button id="themeToggle" onclick="toggleTheme()" class="glass-card px-3 rounded-xl">Theme</button>
+      <button onclick="logout()" class="btn-neon-outline px-4 py-1 rounded-lg">Logout</button>
+    </div>
+  </nav>
+
+  <!-- Main Content -->
+  <main class="space-y-6 mt-2">
+    <!-- Info Sesi Aktif -->
+    <div class="glass-card p-6">
+      <div class="flex flex-col md:flex-row items-center justify-between gap-4 mb-6">
+        <h3 class="text-xl font-semibold flex items-center gap-2">
+          <svg class="w-6 h-6 text-cyan-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9.75 17L9 20l-1 1h8l-1-1-.75-3M3 13h18M5 17h14a2 2 0 002-2V5a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z"/>
+          </svg>
+          Info Sesi
+        </h3>
+        <div id="sessionStatus">
+          <span class="inline-flex items-center px-3 py-1 rounded-full text-sm font-semibold bg-slate-500/20 text-slate-400 border border-slate-500/30">○ Tidak Ada Sesi</span>
+        </div>
+      </div>
+
+      <div class="grid md:grid-cols-3 gap-6">
+        <!-- PC yang Dipakai -->
+        <div class="bg-gradient-to-br from-cyan-500/10 to-blue-600/10 p-6 rounded-2xl border border-cyan-500/30 text-center">
+          <div class="w-16 h-16 rounded-full bg-cyan-500/20 flex items-center justify-center mx-auto mb-4">
+            <svg class="w-8 h-8 text-cyan-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9.75 17L9 20l-1 1h8l-1-1-.75-3M3 13h18M5 17h14a2 2 0 002-2V5a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z"/>
+            </svg>
+          </div>
+          <p class="text-sm text-cyan-300 mb-2">PC yang Dipakai</p>
+          <p id="userPcInfo" class="text-3xl font-bold text-cyan-400">-</p>
+        </div>
+
+        <!-- Durasi -->
+        <div class="bg-gradient-to-br from-green-500/10 to-emerald-600/10 p-6 rounded-2xl border border-green-500/30 text-center">
+          <div class="w-16 h-16 rounded-full bg-green-500/20 flex items-center justify-center mx-auto mb-4">
+            <svg class="w-8 h-8 text-green-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z"/>
+            </svg>
+          </div>
+          <p class="text-sm text-green-300 mb-2">Durasi</p>
+          <p id="timerDisplay" class="text-3xl font-bold text-green-400 font-mono">00:00:00</p>
+        </div>
+
+        <!-- Biaya -->
+        <div class="bg-gradient-to-br from-yellow-500/10 to-orange-600/10 p-6 rounded-2xl border border-yellow-500/30 text-center">
+          <div class="w-16 h-16 rounded-full bg-yellow-500/20 flex items-center justify-center mx-auto mb-4">
+            <svg class="w-8 h-8 text-yellow-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8c-1.657 0-3 .895-3 2s1.343 2 3 2 3 .895 3 2-1.343 2-3 2m0-8c1.11 0 2.08.402 2.599 1M12 8V7m0 1v8m0 0v1m0-1c-1.11 0-2.08-.402-2.599-1M21 12a9 9 0 11-18 0 9 9 0 0118 0z"/>
+            </svg>
+          </div>
+          <p class="text-sm text-yellow-300 mb-2">Biaya Sementara</p>
+          <p id="costDisplay" class="text-3xl font-bold text-yellow-400">Rp 0</p>
+        </div>
+      </div>
+
+      <!-- Info Tarif -->
+      <div class="mt-6 text-center">
+        <p class="text-sm opacity-70">Tarif: <span id="rateDisplay" class="font-semibold text-indigo-300">Rp 0</span> / jam</p>
+      </div>
+    </div>
+
+    <!-- Info untuk User -->
+    <div class="glass-card p-6">
+      <div class="flex items-start gap-4">
+        <div class="w-12 h-12 rounded-full bg-indigo-500/20 flex items-center justify-center flex-shrink-0">
+          <svg class="w-6 h-6 text-indigo-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"/>
+          </svg>
+        </div>
+        <div>
+          <h4 class="font-semibold text-indigo-300 mb-2">Informasi</h4>
+          <p class="text-sm opacity-80">Sesi Anda dikelola oleh admin. Silakan hubungi admin untuk memulai atau mengakhiri sesi. Setelah sesi selesai, lakukan pembayaran di kasir.</p>
+        </div>
+      </div>
+    </div>
+  </main>
+
+  <!-- Modal Validation -->
+  <div id="modalValidation" class="fixed inset-0 z-50 flex items-center justify-center bg-black/60 backdrop-blur-sm hidden">
+    <div class="glass-card p-6 w-full max-w-sm mx-4 shadow-2xl">
+      <div class="flex items-center gap-3 mb-4">
+        <div class="w-10 h-10 rounded-full bg-red-500/20 flex items-center justify-center">
+          <svg class="w-6 h-6 text-red-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z"/>
+          </svg>
+        </div>
+        <h3 class="text-lg font-bold">Perhatian</h3>
+      </div>
+      <p id="modalValidationMsg" class="text-sm opacity-80 mb-6">Pesan validasi</p>
+      <button onclick="closeModal('modalValidation')" class="btn-neon w-full py-2 rounded-xl font-semibold">OK</button>
+    </div>
+  </div>
+
+  <!-- Modal Confirmation -->
+  <div id="modalConfirm" class="fixed inset-0 z-50 flex items-center justify-center bg-black/60 backdrop-blur-sm hidden">
+    <div class="glass-card p-6 w-full max-w-sm mx-4 shadow-2xl">
+      <div class="flex items-center gap-3 mb-4">
+        <div class="w-10 h-10 rounded-full bg-indigo-500/20 flex items-center justify-center">
+          <svg class="w-6 h-6 text-indigo-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8.228 9c.549-1.165 2.03-2 3.772-2 2.21 0 4 1.343 4 3 0 1.4-1.278 2.575-3.006 2.907-.542.104-.994.54-.994 1.093m0 3h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"/>
+          </svg>
+        </div>
+        <h3 class="text-lg font-bold">Konfirmasi</h3>
+      </div>
+      <p id="modalConfirmMsg" class="text-sm opacity-80 mb-6">Apakah Anda yakin?</p>
+      <div class="flex gap-3">
+        <button onclick="closeModal('modalConfirm')" class="btn-neon-outline flex-1 py-2 rounded-xl font-semibold">Batal</button>
+        <button id="modalConfirmYes" class="btn-neon flex-1 py-2 rounded-xl font-semibold">Ya</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Modal Success -->
+  <div id="modalSuccess" class="fixed inset-0 z-50 flex items-center justify-center bg-black/60 backdrop-blur-sm hidden">
+    <div class="glass-card p-6 w-full max-w-sm mx-4 shadow-2xl">
+      <div class="flex items-center gap-3 mb-4">
+        <div class="w-10 h-10 rounded-full bg-green-500/20 flex items-center justify-center">
+          <svg class="w-6 h-6 text-green-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"/>
+          </svg>
+        </div>
+        <h3 class="text-lg font-bold">Berhasil</h3>
+      </div>
+      <p id="modalSuccessMsg" class="text-sm opacity-80 mb-6">Operasi berhasil!</p>
+      <button onclick="closeModal('modalSuccess')" class="btn-neon w-full py-2 rounded-xl font-semibold">OK</button>
+    </div>
+  </div>
+
+  <!-- Inisialisasi JS -->
+  <script>
+    document.addEventListener("DOMContentLoaded", function() {
+      if (typeof userPageInit === "function") userPageInit();
+      // Auto refresh setiap 5 detik untuk update status sesi
+      setInterval(() => {
+        if (typeof userPageInit === "function") userPageInit();
+      }, 5000);
+    });
+  </script>
+  <script src="js/app.js"></script>
+</body>
+</html>

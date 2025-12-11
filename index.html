@@ -1,0 +1,119 @@
+
+<!--
+  Login Page - Warnet DIZ
+  Responsive, modern, glassmorphism + Tailwind
+-->
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Login | Warnet DIZ</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link rel="stylesheet" href="assets/css/style.css">
+  <script src="https://cdn.tailwindcss.com"></script>
+</head>
+<body class="flex items-center justify-center min-h-screen p-4 bg-gradient-to-br from-indigo-900 via-sky-900 to-indigo-950">
+  <!-- Login Card -->
+  <div class="glass-card w-full max-w-md p-8 shadow-xl">
+    <div class="flex flex-col items-center justify-center">
+      <h1 class="text-center text-3xl font-bold mb-6">⚡ WARNET DIZ</h1>
+      <button
+            id="themeToggle"
+            onclick="toggleTheme()"
+            class="glass-card px-3 rounded-xl w-36 mb-6"
+          >
+            Theme
+          </button>
+    </div>
+    
+    <!-- Login Mode Toggle -->
+    <div class="flex items-center justify-center gap-4 mb-6 p-4 rounded-xl bg-white/5 border border-white/10">
+      <span class="text-sm opacity-70">User</span>
+      <label class="relative inline-flex items-center cursor-pointer">
+        <input type="checkbox" id="loginModeToggle" class="sr-only peer" onchange="toggleLoginMode()">
+        <div class="w-14 h-7 bg-slate-600 peer-focus:outline-none peer-focus:ring-2 peer-focus:ring-indigo-400 rounded-full peer peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:rounded-full after:h-6 after:w-6 after:transition-all peer-checked:bg-indigo-600"></div>
+      </label>
+      <span class="text-sm opacity-70">Admin</span>
+    </div>
+    <p id="loginModeLabel" class="text-center text-sm text-indigo-300 mb-4">Login sebagai User</p>
+
+    <!-- Username Input -->
+    <label class="block mb-4">
+      <span class="text-sm">Username</span>
+      <input id="username" class="w-full mt-2 p-3 rounded-lg bg-white/10 border border-white/20 focus:ring-2 focus:ring-indigo-400" placeholder="Masukkan username">
+    </label>
+    <!-- Password Input (Hidden by default for User mode) -->
+    <div id="passwordGroup" class="hidden mb-4">
+      <label class="block">
+        <span class="text-sm">Password</span>
+        <input id="password" type="password" class="w-full mt-2 p-3 rounded-lg bg-white/10 border border-white/20 focus:ring-2 focus:ring-indigo-400" placeholder="Masukkan password">
+      </label>
+    </div>
+    <!-- Login Button -->
+    <button id="loginBtn" onclick="handleLogin()" class="btn-neon w-full py-3 rounded-xl font-semibold transition-all mt-2">Login User</button>
+    <!-- Demo & Reset -->
+    <div class="flex flex-wrap justify-between text-sm mt-5 opacity-70 gap-2">
+      <button onclick="createDemoAccounts()" class="hover:underline">Reset akun admin</button>
+      <button onclick="clearAllData()" class="text-red-400 hover:underline">Reset semua data</button>
+    </div>
+  </div>
+  <!-- Modal Validation -->
+  <div id="modalValidation" class="fixed inset-0 z-50 flex items-center justify-center bg-black/60 backdrop-blur-sm hidden">
+    <div class="glass-card p-6 w-full max-w-sm mx-4 shadow-2xl">
+      <div class="flex items-center gap-3 mb-4">
+        <div class="w-10 h-10 rounded-full bg-red-500/20 flex items-center justify-center">
+          <svg class="w-6 h-6 text-red-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z"/>
+          </svg>
+        </div>
+        <h3 class="text-lg font-bold">Validasi Gagal</h3>
+      </div>
+      <p id="modalValidationMsg" class="text-sm opacity-80 mb-6">Pesan error</p>
+      <button onclick="closeModal('modalValidation')" class="btn-neon w-full py-2 rounded-xl font-semibold">OK</button>
+    </div>
+  </div>
+
+  <!-- Modal Confirmation -->
+  <div id="modalConfirm" class="fixed inset-0 z-50 flex items-center justify-center bg-black/60 backdrop-blur-sm hidden">
+    <div class="glass-card p-6 w-full max-w-sm mx-4 shadow-2xl">
+      <div class="flex items-center gap-3 mb-4">
+        <div class="w-10 h-10 rounded-full bg-indigo-500/20 flex items-center justify-center">
+          <svg class="w-6 h-6 text-indigo-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8.228 9c.549-1.165 2.03-2 3.772-2 2.21 0 4 1.343 4 3 0 1.4-1.278 2.575-3.006 2.907-.542.104-.994.54-.994 1.093m0 3h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"/>
+          </svg>
+        </div>
+        <h3 class="text-lg font-bold">Konfirmasi</h3>
+      </div>
+      <p id="modalConfirmMsg" class="text-sm opacity-80 mb-6">Apakah Anda yakin?</p>
+      <div class="flex gap-3">
+        <button onclick="closeModal('modalConfirm')" class="btn-neon-outline flex-1 py-2 rounded-xl font-semibold">Batal</button>
+        <button id="modalConfirmYes" class="btn-neon flex-1 py-2 rounded-xl font-semibold">Ya</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Modal Success -->
+  <div id="modalSuccess" class="fixed inset-0 z-50 flex items-center justify-center bg-black/60 backdrop-blur-sm hidden">
+    <div class="glass-card p-6 w-full max-w-sm mx-4 shadow-2xl">
+      <div class="flex items-center gap-3 mb-4">
+        <div class="w-10 h-10 rounded-full bg-green-500/20 flex items-center justify-center">
+          <svg class="w-6 h-6 text-green-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"/>
+          </svg>
+        </div>
+        <h3 class="text-lg font-bold">Berhasil</h3>
+      </div>
+      <p id="modalSuccessMsg" class="text-sm opacity-80 mb-6">Operasi berhasil!</p>
+      <button onclick="closeModal('modalSuccess')" class="btn-neon w-full py-2 rounded-xl font-semibold">OK</button>
+    </div>
+  </div>
+
+  <!-- Theme & JS -->
+  <script>
+    document.addEventListener("DOMContentLoaded", function() {
+      if (typeof applyTheme === "function") applyTheme(localStorage.getItem("warnet_theme") || "dark");
+    });
+  </script>
+  <script src="js/app.js"></script>
+</body>
+</html>
