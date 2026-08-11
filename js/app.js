@@ -1,6 +1,4 @@
-// ===============================
-// STORAGE KEYS
-// ===============================
+// storage keys
 const STORAGE = {
   USERS: "warnet_users_v1",
   PCS: "warnet_pcs_v1",
@@ -9,9 +7,7 @@ const STORAGE = {
   RATE: "warnet_rate_v1",
 };
 
-// ===============================
-// BASIC LOAD/SAVE HELPERS
-// ===============================
+// basic load / save helpers
 function load(key, fallback) {
   return JSON.parse(localStorage.getItem(key) || JSON.stringify(fallback));
 }
@@ -19,9 +15,7 @@ function save(key, value) {
   localStorage.setItem(key, JSON.stringify(value));
 }
 
-// ===============================
-// DEFAULT DATA
-// ===============================
+// default data
 function ensureInitialData() {
   // Hanya admin yang ada secara default, user ditambahkan oleh admin
   if (!load(STORAGE.USERS, null)) {
@@ -51,9 +45,7 @@ function ensureInitialData() {
 }
 ensureInitialData();
 
-// ===============================
-// AUTH (Login, Logout, Reset Akun, dsb)
-// ===============================
+// auth
 function handleLogin() {
   const usernameInput = document.getElementById("username");
   const passwordInput = document.getElementById("password");
@@ -162,9 +154,7 @@ function getCurrentUser() {
   return JSON.parse(localStorage.getItem("warnet_current_user") || "null");
 }
 
-// ===============================
-// UTILS
-// ===============================
+// utils
 function formatHHMMSS(sec) {
   sec = Math.floor(sec);
   const h = String(Math.floor(sec / 3600)).padStart(2, "0");
@@ -177,9 +167,7 @@ function currencyRp(n) {
   return Math.round(n).toLocaleString("id-ID");
 }
 
-// ===============================
-// MODAL HELPERS
-// ===============================
+// modal helpers
 function showModal(id) {
   const modal = document.getElementById(id);
   if (modal) {
@@ -229,9 +217,7 @@ function showConfirm(msg, onConfirm) {
   showModal("modalConfirm");
 }
 
-// ===============================
-// USER PAGE LOGIC
-// ===============================
+// user page logic
 let userTimer = null;
 
 function userPageInit() {
@@ -288,9 +274,7 @@ function userPageInit() {
   }
 }
 
-// ===============================
-// ADMIN PAGE
-// ===============================
+// admin page
 function adminPageInit() {
   const cur = getCurrentUser();
   if (!cur || cur.role !== "admin") return (location.href = "index.html");
@@ -657,9 +641,7 @@ function renderStats() {
   }
 }
 
-// ===============================
-// THEME SYSTEM (DARK/LIGHT)
-// ===============================
+// theme
 const THEME_KEY = "warnet_theme";
 
 function applyTheme(theme) {
