@@ -33,3 +33,28 @@ Website sederhana untuk mengelola aktivitas warnet, mulai dari sesi penggunaan P
 ## 🌐 Live Demo
 
 [Warnet DIZ](https://warnetdiz.vercel.app/)
+
+## 🚀 Cara Menjalankan
+
+Clone repository:
+
+```bash
+git clone https://github.com/ki1rei/warnetdiz.git
+cd warnetdiz
+```
+
+Kemudian buka `index.html` di browser.
+
+## 📂 Struktur
+
+```text
+warnetdiz/
+├── assets/
+│   └── css/
+│       └── style.css
+├── js/
+│   └── app.js
+├── index.html
+├── user.html
+└── admin.html
+```
