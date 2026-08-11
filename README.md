@@ -1,5 +1,9 @@
 # Warnet DIZ 🖥️
 
+<p align="center">
+  <img src="https://github.com/ki1rei/asset/blob/ca29207f6f3be0c4afa5a4cd2c6bc7f795c648c8/warnetdiz.png" alt="Warnet Diz" width="2000">
+</p>
+
 Website sederhana untuk mengelola aktivitas warnet, mulai dari sesi penggunaan PC sampai pencatatan transaksi.
 
 ## ✨ Fitur
